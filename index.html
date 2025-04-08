@@ -229,6 +229,7 @@
 
         // s/sボタンのイベントリスナー
         startStopButton.addEventListener('click', () => {
+            initializeAudio();
             if (isRunning) {
                 stopTimer();
             } else {
