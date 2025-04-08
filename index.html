@@ -81,8 +81,8 @@
     <script>
         // テーブルの定義
         const table = [
-            { menu: "インターバル", time: "00:03" },
-            { menu: "フォア（通常）", time: "00:04" },
+            { menu: "インターバル", time: "00:02" },
+            { menu: "フォア（通常）", time: "00:05" },
             { menu: "フォア（ドライブvsブロック1）", time: "00:03" },
             { menu: "フォア（ドライブvsブロック2）", time: "00:03" },
             { menu: "バック（通常）", time: "00:03" },
@@ -115,15 +115,17 @@
 
         function initializeAudio() {
             if (!audioInitialized) {
-                sound.loop = true;
-                sound.volume = 0.00001; // ほぼ無音
+                sound.volume = 0.00001;
                 sound.play().then(() => {
+                    sound.pause();
+                    sound.currentTime = 0;
                     audioInitialized = true;
                 }).catch((e) => {
                     console.log("Audio preload failed:", e);
                 });
             }
         }
+
 
         // 時間文字列を秒に変換する関数
         function timeToSeconds(timeStr) {
