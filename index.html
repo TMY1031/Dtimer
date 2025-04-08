@@ -82,7 +82,7 @@
         // テーブルの定義
         const table = [
             { menu: "インターバル", time: "00:03" },
-            { menu: "フォア（通常）", time: "00:05" },
+            { menu: "フォア（通常）", time: "00:04" },
             { menu: "フォア（ドライブvsブロック1）", time: "00:03" },
             { menu: "フォア（ドライブvsブロック2）", time: "00:03" },
             { menu: "バック（通常）", time: "00:03" },
@@ -111,6 +111,7 @@
         let timerInterval = null; // タイマーのインターバルID
         let isRunning = false; // タイマー実行中かどうか
         let isInterval = false; // インターバル中かどうか
+        let audioInitialized = false;
 
         function initializeAudio() {
             if (!audioInitialized) {
@@ -123,8 +124,6 @@
                 });
             }
         }
-
-
 
         // 時間文字列を秒に変換する関数
         function timeToSeconds(timeStr) {
