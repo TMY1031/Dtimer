@@ -112,6 +112,20 @@
         let isRunning = false; // タイマー実行中かどうか
         let isInterval = false; // インターバル中かどうか
 
+        let audioInitialized = false;
+
+        function initializeAudio() {
+            if (!audioInitialized) {
+                sound.play().then(() => {
+                    sound.pause(); // 無音再生後すぐに止める
+                    sound.currentTime = 0;
+                    audioInitialized = true;
+                }).catch(e => {
+                    console.log("Audio init failed:", e);
+                });
+            }
+        }
+
         // 時間文字列を秒に変換する関数
         function timeToSeconds(timeStr) {
             const [minutes, seconds] = timeStr.split(':').map(Number);
@@ -213,6 +227,7 @@
 
         // s/sボタンのイベントリスナー
         startStopButton.addEventListener('click', () => {
+            initializeAudio(); // 🔊追加！
             if (isRunning) {
                 stopTimer();
             } else {
