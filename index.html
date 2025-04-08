@@ -82,7 +82,7 @@
         // テーブルの定義
         const table = [
             { menu: "インターバル", time: "00:03" },
-            { menu: "フォア（通常）", time: "00:03" },
+            { menu: "フォア（通常）", time: "00:05" },
             { menu: "フォア（ドライブvsブロック1）", time: "00:03" },
             { menu: "フォア（ドライブvsブロック2）", time: "00:03" },
             { menu: "バック（通常）", time: "00:03" },
@@ -112,19 +112,13 @@
         let isRunning = false; // タイマー実行中かどうか
         let isInterval = false; // インターバル中かどうか
 
-        let audioInitialized = false;
-
-        function initializeAudio() {
-            if (!audioInitialized) {
-                sound.play().then(() => {
-                    sound.pause(); // 無音再生後すぐに止める
-                    sound.currentTime = 0;
-                    audioInitialized = true;
-                }).catch(e => {
-                    console.log("Audio init failed:", e);
-                });
-            }
-        }
+        function playSoundSafely() {
+        sound.pause();
+        sound.currentTime = 0;
+        sound.play().catch(e => {
+            console.log("Play failed (mobile restrictions?)", e);
+        });
+}
 
         // 時間文字列を秒に変換する関数
         function timeToSeconds(timeStr) {
@@ -204,8 +198,8 @@
                     setMenu(0);
                     startTimer(); // 自動的にstart
 
-                    sound.currentTime = 0; // 再生位置を最初に戻す
-                    sound.play();
+                    // タイマー0時
+                    playSoundSafely();
 
                 } else {
                     // 最後のメニューの場合は、最初のメニューに戻し、タイマーはストップ状態で待機
