@@ -112,13 +112,19 @@
         let isRunning = false; // タイマー実行中かどうか
         let isInterval = false; // インターバル中かどうか
 
-        function playSoundSafely() {
-        sound.pause();
-        sound.currentTime = 0;
-        sound.play().catch(e => {
-            console.log("Play failed (mobile restrictions?)", e);
-        });
-}
+        function initializeAudio() {
+            if (!audioInitialized) {
+                sound.loop = true;
+                sound.volume = 0.00001; // ほぼ無音
+                sound.play().then(() => {
+                    audioInitialized = true;
+                }).catch((e) => {
+                    console.log("Audio preload failed:", e);
+                });
+            }
+        }
+
+
 
         // 時間文字列を秒に変換する関数
         function timeToSeconds(timeStr) {
@@ -198,8 +204,10 @@
                     setMenu(0);
                     startTimer(); // 自動的にstart
 
-                    // タイマー0時
-                    playSoundSafely();
+                    sound.pause();
+                    sound.currentTime = 0;
+                    sound.volume = 1.0;
+                    sound.play();
 
                 } else {
                     // 最後のメニューの場合は、最初のメニューに戻し、タイマーはストップ状態で待機
