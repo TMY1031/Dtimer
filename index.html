@@ -67,6 +67,8 @@
     </style>
 </head>
 <body>
+    <audio id="finishSound" src="se\finished1.mp3" preload="auto"></audio>
+
     <div class="container">
         <div id="menu-display">F0</div>
         <div id="timer">02:30</div>
@@ -80,19 +82,19 @@
         // テーブルの定義
         const table = [
             { menu: "インターバル", time: "00:10" },
-            { menu: "F0", time: "01:00" },
-            { menu: "F1", time: "02:30" },
-            { menu: "F2", time: "02:30" },
-            { menu: "B0", time: "01:00" },
-            { menu: "B1", time: "02:30" },
-            { menu: "B2", time: "02:30" },
-            { menu: "ストレートF", time: "02:30" },
-            { menu: "ストレートB", time: "02:30" },
-            { menu: "台上F", time: "02:30" },
-            { menu: "台上B", time: "02:30" },
+            { menu: "フォア（通常）", time: "01:00" },
+            { menu: "フォア（ドライブvsブロック1）", time: "02:30" },
+            { menu: "フォア（ドライブvsブロック2）", time: "02:30" },
+            { menu: "バック（通常）", time: "01:00" },
+            { menu: "バック（ドライブvsブロック1）", time: "02:30" },
+            { menu: "バック（ドライブvsブロック2）", time: "02:30" },
+            { menu: "ストレートフォア", time: "02:30" },
+            { menu: "ストレートバック", time: "02:30" },
+            { menu: "台上フォア", time: "02:30" },
+            { menu: "台上バック", time: "02:30" },
             { menu: "台上全面", time: "02:30" },
-            { menu: "引き合いF", time: "02:30" },
-            { menu: "引き合いB", time: "02:30" }
+            { menu: "引き合いフォア", time: "02:30" },
+            { menu: "引き合いバック", time: "02:30" }
         ];
 
         // DOM要素の取得
@@ -100,6 +102,7 @@
         const timerDisplay = document.getElementById('timer');
         const startStopButton = document.getElementById('start-stop');
         const resetButton = document.getElementById('reset');
+        const sound = document.getElementById("finishSound");
 
         // 変数の初期化
         let currentIndex = 1; // 変数k - 現在のメニュー番号
@@ -186,6 +189,10 @@
                     currentIndex++; // 次のメニュー番号を設定
                     setMenu(0);
                     startTimer(); // 自動的にstart
+
+                    sound.currentTime = 0; // 再生位置を最初に戻す
+                    sound.play();
+
                 } else {
                     // 最後のメニューの場合は、最初のメニューに戻し、タイマーはストップ状態で待機
                     currentIndex = 1;
